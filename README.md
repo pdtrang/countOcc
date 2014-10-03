@@ -6,3 +6,5 @@ Count how many 10-mer, 20-mer (extends from 10-mers which occur more than once),
 Input: FASTA file.
 
 Output: number of 10-mer, 20-mer, 40-mer occur once.
+
+go run main.go -g sequence.fasta -i indexfile

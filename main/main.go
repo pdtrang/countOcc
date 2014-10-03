@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"flag"
-	"github.com/pdtrang/kstar"
+	"github.com/pdtrang/countOcc"
 	"github.com/vtphan/fmi"
 )
 

@@ -124,6 +124,5 @@ func main(){
 
 	count_occ(sequence, k)
 
-	fmt.Println("\nNumber of occ = 1 of ")
 	fmt.Println("10-mer ", count_10, "\n20-mer ", count_20, "\n40-mer ", count_40)
 }

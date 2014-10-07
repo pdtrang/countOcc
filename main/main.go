@@ -3,14 +3,17 @@ package main
 import (
 	"fmt"
 	"flag"
-	"github.com/pdtrang/countOcc"
+	"readfile"
 	"github.com/vtphan/fmi"
+	"time"
+	
 )
 
 var idx fmi.Index
 var count_10 = 0
 var count_20 = 0
 var count_40 = 0
+var count = 0
 
 func AppendIfMissing(slice []int, i int) []int {
    for _, ele := range slice {
@@ -18,6 +21,7 @@ func AppendIfMissing(slice []int, i int) []int {
          return slice
       }
    }
+
 
    return append(slice, i)
 }
@@ -32,73 +36,41 @@ func update_count(k int){
 		}else{
 			if (k == 40){
 				count_40 = count_40 + 1
+			}else{
+				count = count + 1
 			}
+			
 		}
 	}
 }
 
-func count(sequence []byte, k int, pos []int, n int) ([]int) {
-
-	var p []int
+func search(sequence []byte, i int, k int){
 	
-	L := len(sequence)
-	if (n == 0){
-		for i := 0; i < L; i++ {
-			if (i+k <= L){
-				var a = idx.Search(sequence[i:i+k])	
-				
-				//occ = 1
-				if (len(a)==1){
-					a[0] = a[0]+k-1
-					update_count(k)
-				}else{
-					//occ > 1
-					for j := 0; j < len(a); j++ {
-						a[j] = a[j]+k-1
-						p = AppendIfMissing(p, a[j])
-					}
-								
-				}
-			}
-		}
+	var arr = idx.Search(sequence[i:i+k])	
+	
+	if (len(arr) == 1){	
+		update_count(k)
 	}else{
-		for i := 0; i < len(pos); i++ {
-			if (pos[i]+k <= L){
-				var a = idx.Search(sequence[pos[i]:pos[i]+k])	
-				
-				//occ = 1
-				if (len(a)==1){
-					a[0] = a[0]+k-1
-					update_count(k)					
-				}else{
-					//occ > 1
-					for j := 0; j < len(a); j++ {
-						a[j] = a[j]+k-1
-						p = AppendIfMissing(p, a[j])
-					}
-								
-				}
-			}
-		}
+		//occ > 1			
+		if((2*k <= 40) && (i+2*k<len(sequence)) ){
+			search(sequence, i, 2*k)
+		}				
 	}
 
-	return p
 }
 
-func count_occ(sequence []byte, k int) {
-	var p []int
+func countOcc(sequence []byte, k int) {
 	
 	fmt.Println("Begin counting...")
-
-	fmt.Println("10-mer")
-	p = count(sequence, k, p, 0)
 	
-	fmt.Println("20-mer")
-	p = count(sequence, 2*k, p, 1)
+	L := len(sequence)
 	
-	fmt.Println("40-mer")
-	p = count(sequence, 4*k, p, 1)
-
+	if(k<=40){
+		for i := 0; i < L-k+1; i++ {
+			search(sequence, i, k)		
+		}
+	}
+	
 	fmt.Println("Finish counting")
 
 }
@@ -111,18 +83,26 @@ func main(){
 
 	var k = 10
 
-	fmt.Println("Read FASTA")
-  	sequence := kstar.ReadFASTA(*genome_file)
+	s := time.Now()
 
-  	//fmt.Println(string(sequence))
-  	fmt.Println(len(sequence))
+	fmt.Println("Read FASTA")
+    sequence := readfile.ReadFASTA(*genome_file)
+
+    //fmt.Println(string(sequence))
+    fmt.Println(len(sequence))
     
 	idx = *fmi.New(*genome_file)
 	idx.Save(*index_file)
+	//fmt.Println(idx)
 
 	fmt.Println("Finish indexing multigenome...")
 
-	count_occ(sequence, k)
+	countOcc(sequence, k)
 
-	fmt.Println("10-mer ", count_10, "\n20-mer ", count_20, "\n40-mer ", count_40)
+	fmt.Println("\nNumber of occ = 1  ")
+	fmt.Println("10-mer ", count_10, "\n20-mer ", count_20, "\n40-mer ", count_40, "\nn-mer ", count)
+
+	end := time.Now()
+	elapse := end.Sub(s)
+	fmt.Println("Running time = ", elapse)
 }

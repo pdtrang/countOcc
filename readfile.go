@@ -1,4 +1,4 @@
-package readfile
+package countOcc
 
 import (
      "os"

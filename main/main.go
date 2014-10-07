@@ -86,7 +86,7 @@ func main(){
 	s := time.Now()
 
 	fmt.Println("Read FASTA")
-    sequence := readfile.ReadFASTA(*genome_file)
+    sequence := countOcc.ReadFASTA(*genome_file)
 
     //fmt.Println(string(sequence))
     fmt.Println(len(sequence))

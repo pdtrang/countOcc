@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"flag"
-	"readfile"
+	"github.com/pdtrang/countOcc"
 	"github.com/vtphan/fmi"
 	"time"
 	

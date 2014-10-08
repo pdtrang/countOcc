@@ -7,4 +7,6 @@ Input: FASTA file.
 
 Output: number of 10-mer, 20-mer, 40-mer occur once.
 
+Install: go get github.com/pdtrang/countOcc
+
 go run main.go -g sequence.fasta -i indexfile

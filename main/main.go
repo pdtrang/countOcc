@@ -59,7 +59,7 @@ func search(sequence []byte, i int, k int){
 
 }
 
-func countOcc(sequence []byte, k int) {
+func countO(sequence []byte, k int) {
 	
 	fmt.Println("Begin counting...")
 	
@@ -97,7 +97,7 @@ func main(){
 
 	fmt.Println("Finish indexing multigenome...")
 
-	countOcc(sequence, k)
+	countO(sequence, k)
 
 	fmt.Println("\nNumber of occ = 1  ")
 	fmt.Println("10-mer ", count_10, "\n20-mer ", count_20, "\n40-mer ", count_40, "\nn-mer ", count)

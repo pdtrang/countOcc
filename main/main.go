@@ -15,17 +15,6 @@ var count_20 = 0
 var count_40 = 0
 var count = 0
 
-func AppendIfMissing(slice []int, i int) []int {
-   for _, ele := range slice {
-      if ele == i {
-         return slice
-      }
-   }
-
-
-   return append(slice, i)
-}
-
 func update_count(k int){
 
 	if (k == 10){

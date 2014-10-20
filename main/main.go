@@ -95,7 +95,7 @@ func main(){
 	idx.Save(*index_file)
 	//fmt.Println(idx)
 
-	fmt.Println("Finish indexing multigenome...")
+	fmt.Println("Finish indexing genome...")
 
 	countO(sequence, k)
 
